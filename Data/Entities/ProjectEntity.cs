@@ -8,8 +8,8 @@ namespace Data.Entities
         [Key]
         public int Id { get; set; }
         public string Name { get; set; } = null!;
-        public string StartDate { get; set; } = null!;
-        public string EndDate { get; set; } = null!;
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public int CustomerId { get; set; }
         //public CustomerEntity Customer { get; set; } = null!;
         public string Status { get; set; } = null!;

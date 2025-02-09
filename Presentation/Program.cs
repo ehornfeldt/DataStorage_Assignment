@@ -15,15 +15,49 @@ var serviceProvider = serviceCollection.BuildServiceProvider();
 var projectDialog = serviceProvider.GetRequiredService<IProjectDialog>();
 var customerDialog = serviceProvider.GetRequiredService<ICustomerDialog>();
 
-while (true)
+var running = true;
+
+while (running)
 {
-    Console.WriteLine("Hej!");
+    Console.WriteLine("Choose any of following options:");
+    Console.WriteLine("1 - Add new customer");
+    Console.WriteLine("2 - Add new project");
+    Console.WriteLine("3 - View all projects");
+    Console.WriteLine("4 - View one project");
+    Console.WriteLine("5 - Edit project");
+    Console.WriteLine("6 - Delete project");
+    Console.WriteLine("q - Quit");
+
     var user_input = Console.ReadLine();
-    if(user_input == "q")
+    switch(user_input)
     {
-        break;
+        case "1":
+            Console.WriteLine("option 1");
+            customerDialog.CreateCustomerDialog();
+            break;
+        case "2":
+            Console.WriteLine("Option 2");
+            projectDialog.CreateProjectDialog();
+            break;
+        case "3":
+            Console.WriteLine("Option 2");
+            break;
+        case "4":
+            Console.WriteLine("Option 2");
+            break;
+        case "5":
+            Console.WriteLine("Option 2");
+            break;
+        case "6":
+            Console.WriteLine("Option 2");
+            break;
+        case "q":
+            Console.WriteLine("Option 2");
+            running = false;
+            break;
+        default:
+            Console.WriteLine("Option not valid, try again");
+            break ;
     }
-    customerDialog.CreateCustomerDialog();
-    projectDialog.CreateProjectDialog();
     Console.ReadKey();
 }

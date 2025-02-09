@@ -29,7 +29,7 @@ namespace Business.Services
             _context.SaveChanges();
             return customer;
         }
-        public bool DeleteProject(int id)
+        public bool DeleteCustomer(int id)
         {
             var customer = GetCustomer(id);
             if (customer != null)

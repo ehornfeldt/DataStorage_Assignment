@@ -13,10 +13,34 @@ namespace Presentation.Dialogs
 
             Console.WriteLine("Set project name:");
             project.Name = Console.ReadLine()!;
-            Console.WriteLine("Set start date of project:");
-            project.StartDate = Console.ReadLine()!;
-            Console.WriteLine("Set end date of project:");
-            project.EndDate = Console.ReadLine()!;
+            Console.WriteLine("Set start date of project (YYYY-MM-DD):");
+            while(true)
+            {
+                var startDate = Console.ReadLine()!;
+                if (DateTime.TryParse(startDate, out DateTime date))
+                {
+                    project.StartDate = date;
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Wrong format, write date in format YYYY-MM-DD");
+                }
+            }
+            Console.WriteLine("Set end date of project (YYYY-MM-DD):");
+            while (true)
+            {
+                var endDate = Console.ReadLine()!;
+                if (DateTime.TryParse(endDate, out DateTime date))
+                {
+                    project.EndDate = date;
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Wrong format, write date in format YYYY-MM-DD");
+                }
+            }
             Console.WriteLine("Set status on project:");
             project.Status = Console.ReadLine()!;
             Console.WriteLine("Set projectleader:");
