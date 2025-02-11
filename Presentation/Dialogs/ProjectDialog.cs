@@ -89,18 +89,41 @@ namespace Presentation.Dialogs
                 }
                 else
                 {
-                    Console.WriteLine($"--- Name: {project.Name} ---");
-                    Console.WriteLine($"Date: {project.StartDate} - {project.EndDate}");
-                    Console.WriteLine($"Customer: {project.Customer.CustomerName}");
-                    Console.WriteLine($"Projectleader: {project.ProjectLeader}");
-                    Console.WriteLine($"Status: {project.Status}");
-                    Console.WriteLine($"Service: {project.Service}");
-                    Console.WriteLine($"Price: {project.Price}");
-                    Console.WriteLine(" ");
+                    ProjectInfo(project);
                 }
             }
             Console.WriteLine("---------------------------------");
 
+        }
+
+        public async Task ViewSingleProjectDialog()
+        {
+            Console.WriteLine("Enter a project id:");
+            try
+            {
+                int id = int.Parse(Console.ReadLine()!);
+                var project = await _projectService.GetProjectWithCustomerAsync(id);
+                if (project != null)
+                {
+                    ProjectInfo(project);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Something went wrong: {ex.Message}");
+            }
+        }
+
+        private void ProjectInfo(ProjectEntity project)
+        {
+            Console.WriteLine($"--- Name: {project.Name} ---");
+            Console.WriteLine($"Date: {project.StartDate} - {project.EndDate}");
+            Console.WriteLine($"Customer: {project.Customer.CustomerName}");
+            Console.WriteLine($"Projectleader: {project.ProjectLeader}");
+            Console.WriteLine($"Status: {project.Status}");
+            Console.WriteLine($"Service: {project.Service}");
+            Console.WriteLine($"Price: {project.Price}");
+            Console.WriteLine(" ");
         }
     }
 }

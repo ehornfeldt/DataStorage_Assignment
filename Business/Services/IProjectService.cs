@@ -8,6 +8,6 @@ namespace Business.Services
         Task<ProjectEntity> CreateProjectAsync(ProjectRegistrationForm form);
         Task<bool> DeleteProjectAsync(int id);
         Task<IEnumerable<ProjectEntity>> GetProjectsAsync();
-        Task GetProjectWithCustomerAsync(int projectId);
+        Task<ProjectEntity> GetProjectWithCustomerAsync(int projectId);
     }
 }

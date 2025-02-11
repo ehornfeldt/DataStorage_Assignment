@@ -42,7 +42,7 @@ while (running)
     {
         case "1":
             Console.WriteLine("option 1");
-            customerDialog.CreateCustomerDialog();
+            await customerDialog.CreateCustomerDialog();
             break;
         case "2":
             Console.WriteLine("Option 2");
@@ -54,6 +54,7 @@ while (running)
             break;
         case "4":
             Console.WriteLine("Option 4");
+            await projectDialog.ViewSingleProjectDialog();
             break;
         case "5":
             Console.WriteLine("Option 5");

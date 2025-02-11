@@ -28,9 +28,9 @@ namespace Business.Services
             return projectEntities.Select(ProjectFactory.Create)!;
         }
 
-        public async Task GetProjectWithCustomerAsync(int projectId)
+        public async Task<ProjectEntity> GetProjectWithCustomerAsync(int projectId)
         {
-            await _projectRepository.GetProjectWithCustomerAsync(projectId);
+            return await _projectRepository.GetProjectWithCustomerAsync(projectId);
         }
         //public async Task<CustomerEntity> GetCustomerByIdAsync(int id) { }
         //public async Task<bool> UpdateCustomerAsync() { }

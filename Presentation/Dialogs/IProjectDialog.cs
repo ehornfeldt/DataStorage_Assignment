@@ -5,5 +5,6 @@ namespace Presentation.Dialogs
     {
         Task CreateProjectDialog();
         Task ViewProjectsDialog();
+        Task ViewSingleProjectDialog();
     }
 }
