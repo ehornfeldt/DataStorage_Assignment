@@ -13,12 +13,9 @@ namespace Business.Services
         public async Task<CustomerEntity> CreateCustomerAsync(CustomerRegistrationForm form)
         {
             //skapa ej kund om den redan finns
-            Console.WriteLine("temp");
             var customerEntity = CustomerFactory.Create(form);
-            Console.WriteLine("temp2" + customerEntity);
-            var temp = await _customerRepository.AddAsync(customerEntity!);
+            await _customerRepository.AddAsync(customerEntity!);
             
-            Console.WriteLine($"temp: {temp}");
             return customerEntity!;
         }
         public async Task<IEnumerable<CustomerEntity>> GetCustomersAsync()

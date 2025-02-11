@@ -2,6 +2,6 @@
 {
     public interface ICustomerDialog
     {
-        void CreateCustomerDialog();
+        Task CreateCustomerDialog();
     }
 }

@@ -1,52 +1,86 @@
-﻿using Data.Contexts;
+﻿using Business.Factories;
+using Business.Models;
+using Data.Contexts;
 using Data.Entities;
+using Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
 {
-    public class ProjectService(DataContext context) : IProjectService
+    public class ProjectService(ProjectRepository projectRepository) : IProjectService
     {
-        private readonly DataContext _context = context;
+        private readonly ProjectRepository _projectRepository = projectRepository;
 
-        public ProjectEntity AddProject(ProjectEntity project)
+        public async Task<ProjectEntity> CreateProjectAsync(ProjectRegistrationForm form)
         {
-            _context.Projects.Add(project);
-            _context.SaveChanges();
-            return project;
+            //skapa ej kund om den redan finns
+            var projectEntity = ProjectFactory.Create(form);
+            await _projectRepository.AddAsync(projectEntity!);
+
+            return projectEntity!;
         }
-
-        public IEnumerable<ProjectEntity> GetAllProjects()
+        public async Task<IEnumerable<ProjectEntity>> GetProjectsAsync()
         {
-                
-            var projects = _context.Projects.Include(x => x.Customer).ToList();
-            return projects;
-        }
+            //var projectEntities = await _projectRepository.GetAsync();
+            //return projectEntities.Select(ProjectFactory.Create)!;
 
-        public ProjectEntity GetProject(int id)
-        {
-            var project = _context.Projects.FirstOrDefault(x => x.Id == id);
-            return project ?? null!;
+            var projectEntities = await _projectRepository.GetAllWithCustomersAsync();
+            return projectEntities.Select(ProjectFactory.Create)!;
         }
 
-        public ProjectEntity UpdateProject(ProjectEntity project)
+        public async Task GetProjectWithCustomerAsync(int projectId)
         {
-            _context.Projects.Update(project);
-            _context.SaveChanges();
-            return project;
+            await _projectRepository.GetProjectWithCustomerAsync(projectId);
         }
-        public bool DeleteProject(int id)
+        //public async Task<CustomerEntity> GetCustomerByIdAsync(int id) { }
+        //public async Task<bool> UpdateCustomerAsync() { }
+        public async Task<bool> DeleteProjectAsync(int id)
         {
-            var project = GetProject(id);
-            if (project != null)
-            {
-                _context.Projects.Remove(project);
-                _context.SaveChanges();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var projectEntity = await _projectRepository.GetAsync(x => x.Id == id);
+            await _projectRepository.RemoveAsync(projectEntity!);
+            return true;
         }
+        //private readonly DataContext _context = context;
+
+        //public ProjectEntity AddProject(ProjectEntity project)
+        //{
+        //    _context.Projects.Add(project);
+        //    _context.SaveChanges();
+        //    return project;
+        //}
+
+        //public IEnumerable<ProjectEntity> GetAllProjects()
+        //{
+
+        //    var projects = _context.Projects.Include(x => x.Customer).ToList();
+        //    return projects;
+        //}
+
+        //public ProjectEntity GetProject(int id)
+        //{
+        //    var project = _context.Projects.FirstOrDefault(x => x.Id == id);
+        //    return project ?? null!;
+        //}
+
+        //public ProjectEntity UpdateProject(ProjectEntity project)
+        //{
+        //    _context.Projects.Update(project);
+        //    _context.SaveChanges();
+        //    return project;
+        //}
+        //public bool DeleteProject(int id)
+        //{
+        //    var project = GetProject(id);
+        //    if (project != null)
+        //    {
+        //        _context.Projects.Remove(project);
+        //        _context.SaveChanges();
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
     }
 }

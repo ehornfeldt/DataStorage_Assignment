@@ -11,17 +11,17 @@ serviceCollection.AddScoped<CustomerRepository>();
 serviceCollection.AddScoped<ProjectRepository>();
 
 //serviceCollection.AddScoped<CustomerService>();
-serviceCollection.AddScoped<ProjectService>();
+//serviceCollection.AddScoped<ProjectService>();
 //serviceCollection.AddScoped<CustomerDialog>();
 //serviceCollection.AddScoped<ProjectDialog>();
-//serviceCollection.AddScoped<IProjectService, ProjectService>();
+serviceCollection.AddScoped<IProjectService, ProjectService>();
 serviceCollection.AddScoped<ICustomerService, CustomerService>();
 
-//serviceCollection.AddScoped<IProjectDialog, ProjectDialog>();
+serviceCollection.AddScoped<IProjectDialog, ProjectDialog>();
 serviceCollection.AddScoped<ICustomerDialog, CustomerDialog>();
 
 var serviceProvider = serviceCollection.BuildServiceProvider();
-//var projectDialog = serviceProvider.GetRequiredService<IProjectDialog>();
+var projectDialog = serviceProvider.GetRequiredService<IProjectDialog>();
 var customerDialog = serviceProvider.GetRequiredService<ICustomerDialog>();
 
 var running = true;
@@ -46,10 +46,11 @@ while (running)
             break;
         case "2":
             Console.WriteLine("Option 2");
-            //await projectDialog.CreateProjectDialog();
+            await projectDialog.CreateProjectDialog();
             break;
         case "3":
             Console.WriteLine("Option 3");
+            await projectDialog.ViewProjectsDialog();
             break;
         case "4":
             Console.WriteLine("Option 4");
@@ -68,5 +69,4 @@ while (running)
             Console.WriteLine("Option not valid, try again");
             break ;
     }
-    Console.ReadKey();
 }

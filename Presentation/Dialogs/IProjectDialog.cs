@@ -1,7 +1,9 @@
-﻿namespace Presentation.Dialogs
+﻿
+namespace Presentation.Dialogs
 {
     public interface IProjectDialog
     {
         Task CreateProjectDialog();
+        Task ViewProjectsDialog();
     }
 }

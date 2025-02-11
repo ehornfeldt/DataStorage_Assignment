@@ -1,4 +1,5 @@
-﻿using Business.Services;
+﻿using Business.Models;
+using Business.Services;
 using Data.Entities;
 
 namespace Presentation.Dialogs
@@ -9,12 +10,12 @@ namespace Presentation.Dialogs
         private readonly ICustomerService _customerService = customerService;
         public async Task CreateProjectDialog()
         {
-            var project = new ProjectEntity();
+            var project = new ProjectRegistrationForm();
 
             Console.WriteLine("Set project name:");
             project.Name = Console.ReadLine()!;
             Console.WriteLine("Set start date of project (YYYY-MM-DD):");
-            while(true)
+            while (true)
             {
                 var startDate = Console.ReadLine()!;
                 if (DateTime.TryParse(startDate, out DateTime date))
@@ -61,7 +62,7 @@ namespace Presentation.Dialogs
             Console.WriteLine("Set price:");
             project.Price = int.Parse(Console.ReadLine()!);
 
-            var result = _projectService.AddProject(project);
+            var result = await _projectService.CreateProjectAsync(project);
             if (result != null)
             {
                 Console.WriteLine($"{"Project added with id:"} {result.Id}");
@@ -70,7 +71,36 @@ namespace Presentation.Dialogs
             {
                 Console.WriteLine("Somethong went wrong");
             }
-            Console.ReadKey();
+        }
+
+        public async Task ViewProjectsDialog()
+        {
+            Console.WriteLine("--- Below are added projects --- ");
+            var projects = await _projectService.GetProjectsAsync();
+            //foreach (var project in projects)
+            //{
+            //    Console.WriteLine($"{"Name:"} {project.Name,-5} {"Date:"} {project.StartDate} {"-"} {project.EndDate,-5} {"Customer:"} {project.Customer.CustomerName,-5} {"Projectleader:"} {project.ProjectLeader,-5} {"Status:"} {project.Status,-5} {"Service:"} {project.Service,-5} {"Price:"} {project.Price,-5}");
+            //}
+            foreach (var project in projects)
+            {
+                if (project.Customer == null)
+                {
+                    Console.WriteLine($"2:Project ID {project.Id} has no associated customer.");
+                }
+                else
+                {
+                    Console.WriteLine($"--- Name: {project.Name} ---");
+                    Console.WriteLine($"Date: {project.StartDate} - {project.EndDate}");
+                    Console.WriteLine($"Customer: {project.Customer.CustomerName}");
+                    Console.WriteLine($"Projectleader: {project.ProjectLeader}");
+                    Console.WriteLine($"Status: {project.Status}");
+                    Console.WriteLine($"Service: {project.Service}");
+                    Console.WriteLine($"Price: {project.Price}");
+                    Console.WriteLine(" ");
+                }
+            }
+            Console.WriteLine("---------------------------------");
+
         }
     }
 }

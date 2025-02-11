@@ -7,7 +7,7 @@ namespace Presentation.Dialogs
     public class CustomerDialog(ICustomerService customerService) : ICustomerDialog
     {
         private readonly ICustomerService _customerService = customerService;
-        public async void CreateCustomerDialog()
+        public async Task CreateCustomerDialog()
         {
             var customer = new CustomerRegistrationForm();
 
@@ -24,7 +24,6 @@ namespace Presentation.Dialogs
             {
                 Console.WriteLine("Somethong went wrong");
             }
-            Console.ReadKey();
         }
 
     }
