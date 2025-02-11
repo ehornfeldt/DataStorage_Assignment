@@ -25,7 +25,7 @@ namespace Data.Repositories
 
         //ChatGPT
 
-        public async Task GetProjectWithCustomerAsync(int projectId)
+        public async Task<ProjectEntity> GetProjectWithCustomerAsync(int projectId)
         {
             var project = await _context.Projects
                 .Include(p => p.Customer)
@@ -34,7 +34,9 @@ namespace Data.Repositories
             if (project == null)
             {
                 Console.WriteLine("Project not found.");
-            }else
+                return null!;
+            }
+            else
             {
                 return project;
             }
