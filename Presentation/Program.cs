@@ -1,18 +1,27 @@
 ﻿using Business.Services;
 using Data.Contexts;
+using Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.Dialogs;
 
 var serviceCollection = new ServiceCollection();
-serviceCollection.AddDbContext<DataContext>(options => options.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Projects\DataStorage_Assignment\Data\Databases\local_db.mdf;Integrated Security=True;Connect Timeout=30;Encrypt=True"));
-serviceCollection.AddScoped<IProjectService, ProjectService>();
+serviceCollection.AddDbContext<DataContext>(options => options.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=C:\Projects\DataStorage_Assignment\Data\Databases\local_db.mdf;Integrated Security=True;Connect Timeout=30;Encrypt=True"));
+serviceCollection.AddScoped<CustomerRepository>();
+serviceCollection.AddScoped<ProjectRepository>();
+
+//serviceCollection.AddScoped<CustomerService>();
+serviceCollection.AddScoped<ProjectService>();
+//serviceCollection.AddScoped<CustomerDialog>();
+//serviceCollection.AddScoped<ProjectDialog>();
+//serviceCollection.AddScoped<IProjectService, ProjectService>();
 serviceCollection.AddScoped<ICustomerService, CustomerService>();
-serviceCollection.AddScoped<IProjectDialog, ProjectDialog>();
+
+//serviceCollection.AddScoped<IProjectDialog, ProjectDialog>();
 serviceCollection.AddScoped<ICustomerDialog, CustomerDialog>();
 
 var serviceProvider = serviceCollection.BuildServiceProvider();
-var projectDialog = serviceProvider.GetRequiredService<IProjectDialog>();
+//var projectDialog = serviceProvider.GetRequiredService<IProjectDialog>();
 var customerDialog = serviceProvider.GetRequiredService<ICustomerDialog>();
 
 var running = true;
@@ -37,22 +46,22 @@ while (running)
             break;
         case "2":
             Console.WriteLine("Option 2");
-            projectDialog.CreateProjectDialog();
+            //await projectDialog.CreateProjectDialog();
             break;
         case "3":
-            Console.WriteLine("Option 2");
+            Console.WriteLine("Option 3");
             break;
         case "4":
-            Console.WriteLine("Option 2");
+            Console.WriteLine("Option 4");
             break;
         case "5":
-            Console.WriteLine("Option 2");
+            Console.WriteLine("Option 5");
             break;
         case "6":
-            Console.WriteLine("Option 2");
+            Console.WriteLine("Option 6");
             break;
         case "q":
-            Console.WriteLine("Option 2");
+            Console.WriteLine("Option q");
             running = false;
             break;
         default:

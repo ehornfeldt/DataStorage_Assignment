@@ -7,7 +7,7 @@ namespace Presentation.Dialogs
     {
         private readonly IProjectService _projectService = projectService;
         private readonly ICustomerService _customerService = customerService;
-        public void CreateProjectDialog()
+        public async Task CreateProjectDialog()
         {
             var project = new ProjectEntity();
 
@@ -47,7 +47,8 @@ namespace Presentation.Dialogs
             project.ProjectLeader = Console.ReadLine()!;
 
             Console.WriteLine("--- Below are added customers --- ");
-            foreach (var customer in _customerService.GetAllCustomers())
+            var customers = await _customerService.GetCustomersAsync();
+            foreach (var customer in customers)
             {
                 Console.WriteLine($"{"Id:"} {customer.Id,-5} {"Name:"} {customer.CustomerName}");
             }

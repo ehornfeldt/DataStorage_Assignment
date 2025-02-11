@@ -1,5 +1,6 @@
 ﻿using Data.Contexts;
 using Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
 {
@@ -16,7 +17,9 @@ namespace Business.Services
 
         public IEnumerable<ProjectEntity> GetAllProjects()
         {
-            return _context.Projects;
+                
+            var projects = _context.Projects.Include(x => x.Customer).ToList();
+            return projects;
         }
 
         public ProjectEntity GetProject(int id)

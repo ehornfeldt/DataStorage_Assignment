@@ -11,7 +11,7 @@ namespace Data.Entities
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int CustomerId { get; set; }
-        //public CustomerEntity Customer { get; set; } = null!;
+        public CustomerEntity Customer { get; set; } = null!;
         public string Status { get; set; } = null!;
         public string ProjectLeader { get; set; } = null!;
 

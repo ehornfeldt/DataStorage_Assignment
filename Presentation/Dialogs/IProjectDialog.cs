@@ -2,6 +2,6 @@
 {
     public interface IProjectDialog
     {
-        void CreateProjectDialog();
+        Task CreateProjectDialog();
     }
 }

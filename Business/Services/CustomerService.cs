@@ -1,47 +1,80 @@
-﻿using Data.Contexts;
+﻿using Business.Factories;
+using Business.Models;
+using Data.Contexts;
 using Data.Entities;
+using Data.Repositories;
 
 namespace Business.Services
 {
-    public class CustomerService(DataContext context) : ICustomerService
+    public class CustomerService(CustomerRepository customerRepository) : ICustomerService
     {
-        private readonly DataContext _context = context;
+        private readonly CustomerRepository _customerRepository = customerRepository;
 
-        public CustomerEntity AddCustomer(CustomerEntity customer)
+        public async Task<CustomerEntity> CreateCustomerAsync(CustomerRegistrationForm form)
         {
-            _context.Customers.Add(customer);
-            _context.SaveChanges();
-            return customer;
+            //skapa ej kund om den redan finns
+            Console.WriteLine("temp");
+            var customerEntity = CustomerFactory.Create(form);
+            Console.WriteLine("temp2" + customerEntity);
+            var temp = await _customerRepository.AddAsync(customerEntity!);
+            
+            Console.WriteLine($"temp: {temp}");
+            return customerEntity!;
+        }
+        public async Task<IEnumerable<CustomerEntity>> GetCustomersAsync()
+        {
+            var customerEntities = await _customerRepository.GetAsync();
+            return customerEntities.Select(CustomerFactory.Create)!;
+        }
+        //public async Task<CustomerEntity> GetCustomerByIdAsync(int id) { }
+        //public async Task<bool> UpdateCustomerAsync() { }
+        public async Task<bool> DeleteCustomerAsync(int id)
+        {
+            var customerEntity = await _customerRepository.GetAsync(x => x.Id == id);
+            await _customerRepository.RemoveAsync(customerEntity!);
+            return true;
         }
 
-        public IEnumerable<CustomerEntity> GetAllCustomers()
-        {
-            return _context.Customers;
-        }
-        public CustomerEntity GetCustomer(int id)
-        {
-            var customer = _context.Customers.FirstOrDefault(x => x.Id == id);
-            return customer ?? null!;
-        }
-        public CustomerEntity UpdateCustomer(CustomerEntity customer)
-        {
-            _context.Customers.Update(customer);
-            _context.SaveChanges();
-            return customer;
-        }
-        public bool DeleteCustomer(int id)
-        {
-            var customer = GetCustomer(id);
-            if (customer != null)
-            {
-                _context.Customers.Remove(customer);
-                _context.SaveChanges();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
     }
+    //public class CustomerService(DataContext context) : ICustomerService
+    //{
+    //    private readonly DataContext _context = context;
+
+    //    public CustomerEntity AddCustomer(CustomerEntity customer)
+    //    {
+    //        _context.Customers.Add(customer);
+    //        _context.SaveChanges();
+    //        return customer;
+    //    }
+
+    //    public IEnumerable<CustomerEntity> GetAllCustomers()
+    //    {
+    //        return _context.Customers;
+    //    }
+    //    public CustomerEntity GetCustomer(int id)
+    //    {
+    //        var customer = _context.Customers.FirstOrDefault(x => x.Id == id);
+    //        return customer ?? null!;
+    //    }
+    //    public CustomerEntity UpdateCustomer(CustomerEntity customer)
+    //    {
+    //        _context.Customers.Update(customer);
+    //        _context.SaveChanges();
+    //        return customer;
+    //    }
+    //    public bool DeleteCustomer(int id)
+    //    {
+    //        var customer = GetCustomer(id);
+    //        if (customer != null)
+    //        {
+    //            _context.Customers.Remove(customer);
+    //            _context.SaveChanges();
+    //            return true;
+    //        }
+    //        else
+    //        {
+    //            return false;
+    //        }
+    //    }
+    //}
 }
