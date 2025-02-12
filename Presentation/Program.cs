@@ -62,6 +62,7 @@ while (running)
             break;
         case "6":
             Console.WriteLine("Option 6");
+            await projectDialog.DeleteProjectDialog();
             break;
         case "q":
             Console.WriteLine("Option q");

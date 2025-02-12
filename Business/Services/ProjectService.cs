@@ -54,6 +54,11 @@ namespace Business.Services
         public async Task<bool> DeleteProjectAsync(int id)
         {
             var projectEntity = await _projectRepository.GetAsync(x => x.Id == id);
+            if (projectEntity == null)
+            {
+                Console.WriteLine($"No project with id {id}");
+                return false;
+            }
             await _projectRepository.RemoveAsync(projectEntity!);
             return true;
         }

@@ -19,7 +19,7 @@ namespace Data.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"AddAsync error message: {ex.Message}");
+                Console.WriteLine($"Addition failed, error message: {ex.Message}");
                 return null;
             }
         }
@@ -50,7 +50,7 @@ namespace Data.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"UpdateAsync, error message: {ex.Message}");
+                Console.WriteLine($"Update process failed, error message: {ex.Message}");
                 
                 //return null;
             }
@@ -64,7 +64,7 @@ namespace Data.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"DeleteAsync, error message: {ex.Message}");
+                Console.WriteLine($"Deletetion failed, error message: {ex.Message}");
             }
         }
     }

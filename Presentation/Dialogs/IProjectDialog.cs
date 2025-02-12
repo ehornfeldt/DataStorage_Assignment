@@ -7,5 +7,6 @@ namespace Presentation.Dialogs
         Task ViewProjectsDialog();
         Task ViewSingleProjectDialog();
         Task UpdateProjectDialog();
+        Task DeleteProjectDialog();
     }
 }

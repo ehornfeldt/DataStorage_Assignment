@@ -89,6 +89,28 @@ namespace Presentation.Dialogs
             }
         }
 
+        public async Task DeleteProjectDialog()
+        {
+            Console.WriteLine("Enter a project id:");
+            try
+            {
+                int id = int.Parse(Console.ReadLine()!);
+                var result = await _projectService.DeleteProjectAsync(id);
+                if (result)
+                {
+                    Console.WriteLine($"Project with id: {id} sucessfully removed");
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to remove project with id: {id}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Something went wrong: {ex.Message}");
+            }
+        }
+
         private ProjectRegistrationForm SetProjectInfo(ProjectRegistrationForm project, IEnumerable<CustomerEntity> customers)
         {
             Console.WriteLine("Set project name:");
