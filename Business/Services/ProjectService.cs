@@ -33,7 +33,24 @@ namespace Business.Services
             return await _projectRepository.GetProjectWithCustomerAsync(projectId);
         }
         //public async Task<CustomerEntity> GetCustomerByIdAsync(int id) { }
-        //public async Task<bool> UpdateCustomerAsync() { }
+        public async Task<bool> UpdateCustomerAsync(int id, ProjectRegistrationForm updatedProject) {
+            var projectEntity = await _projectRepository.GetAsync(x => x.Id == id);
+            if (projectEntity == null)
+            {
+                return false;
+            }
+            projectEntity.Name = updatedProject.Name;
+            projectEntity.StartDate = updatedProject.StartDate;
+            projectEntity.EndDate = updatedProject.EndDate;
+            projectEntity.CustomerId = updatedProject.CustomerId;
+            projectEntity.ProjectLeader = updatedProject.ProjectLeader;
+            projectEntity.Status = updatedProject.Status;
+            projectEntity.Service = updatedProject.Service;
+            projectEntity.Price = updatedProject.Price;
+
+            await _projectRepository.UpdateAsync(projectEntity!);
+            return true;
+        }
         public async Task<bool> DeleteProjectAsync(int id)
         {
             var projectEntity = await _projectRepository.GetAsync(x => x.Id == id);
