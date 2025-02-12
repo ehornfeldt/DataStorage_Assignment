@@ -9,11 +9,6 @@ var serviceCollection = new ServiceCollection();
 serviceCollection.AddDbContext<DataContext>(options => options.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=C:\Projects\DataStorage_Assignment\Data\Databases\local_db.mdf;Integrated Security=True;Connect Timeout=30;Encrypt=True"));
 serviceCollection.AddScoped<CustomerRepository>();
 serviceCollection.AddScoped<ProjectRepository>();
-
-//serviceCollection.AddScoped<CustomerService>();
-//serviceCollection.AddScoped<ProjectService>();
-//serviceCollection.AddScoped<CustomerDialog>();
-//serviceCollection.AddScoped<ProjectDialog>();
 serviceCollection.AddScoped<IProjectService, ProjectService>();
 serviceCollection.AddScoped<ICustomerService, CustomerService>();
 
@@ -41,31 +36,24 @@ while (running)
     switch(user_input)
     {
         case "1":
-            Console.WriteLine("option 1");
             await customerDialog.CreateCustomerDialog();
             break;
         case "2":
-            Console.WriteLine("Option 2");
             await projectDialog.CreateProjectDialog();
             break;
         case "3":
-            Console.WriteLine("Option 3");
             await projectDialog.ViewProjectsDialog();
             break;
         case "4":
-            Console.WriteLine("Option 4");
             await projectDialog.ViewSingleProjectDialog();
             break;
         case "5":
-            Console.WriteLine("Option 5");
             await projectDialog.UpdateProjectDialog();
             break;
         case "6":
-            Console.WriteLine("Option 6");
             await projectDialog.DeleteProjectDialog();
             break;
         case "q":
-            Console.WriteLine("Option q");
             running = false;
             break;
         default:

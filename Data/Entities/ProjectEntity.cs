@@ -14,9 +14,7 @@ namespace Data.Entities
         public CustomerEntity Customer { get; set; } = null!;
         public string Status { get; set; } = null!;
         public string ProjectLeader { get; set; } = null!;
-
         public string Service { get; set; } = null!;
-
         public int Price { get; set; }
 
     }

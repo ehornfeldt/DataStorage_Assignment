@@ -43,16 +43,12 @@ namespace Data.Repositories
         {
             try
             {
-                //var existingEntity = await GetAsync(x => x.Id == entity.Id);
                 await _context.SaveChangesAsync();
                 _db.Update(entity);
-
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Update process failed, error message: {ex.Message}");
-                
-                //return null;
             }
         }
         public async Task RemoveAsync(TEntity enity)

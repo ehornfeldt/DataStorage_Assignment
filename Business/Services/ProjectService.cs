@@ -13,7 +13,7 @@ namespace Business.Services
 
         public async Task<ProjectEntity> CreateProjectAsync(ProjectRegistrationForm form)
         {
-            //skapa ej kund om den redan finns
+            //skapa ej project om den redan finns
             var projectEntity = ProjectFactory.Create(form);
             await _projectRepository.AddAsync(projectEntity!);
 
@@ -21,9 +21,6 @@ namespace Business.Services
         }
         public async Task<IEnumerable<ProjectEntity>> GetProjectsAsync()
         {
-            //var projectEntities = await _projectRepository.GetAsync();
-            //return projectEntities.Select(ProjectFactory.Create)!;
-
             var projectEntities = await _projectRepository.GetAllWithCustomersAsync();
             return projectEntities.Select(ProjectFactory.Create)!;
         }
@@ -32,13 +29,15 @@ namespace Business.Services
         {
             return await _projectRepository.GetProjectWithCustomerAsync(projectId);
         }
-        //public async Task<CustomerEntity> GetCustomerByIdAsync(int id) { }
         public async Task<bool> UpdateCustomerAsync(int id, ProjectRegistrationForm updatedProject) {
+            
             var projectEntity = await _projectRepository.GetAsync(x => x.Id == id);
+            
             if (projectEntity == null)
             {
                 return false;
             }
+
             projectEntity.Name = updatedProject.Name;
             projectEntity.StartDate = updatedProject.StartDate;
             projectEntity.EndDate = updatedProject.EndDate;

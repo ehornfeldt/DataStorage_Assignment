@@ -28,12 +28,9 @@ namespace Presentation.Dialogs
 
         public async Task ViewProjectsDialog()
         {
-            Console.WriteLine("--- Below are added projects --- ");
+            Console.WriteLine("--- Below are existing projects --- ");
             var projects = await _projectService.GetProjectsAsync();
-            //foreach (var project in projects)
-            //{
-            //    Console.WriteLine($"{"Name:"} {project.Name,-5} {"Date:"} {project.StartDate} {"-"} {project.EndDate,-5} {"Customer:"} {project.Customer.CustomerName,-5} {"Projectleader:"} {project.ProjectLeader,-5} {"Status:"} {project.Status,-5} {"Service:"} {project.Service,-5} {"Price:"} {project.Price,-5}");
-            //}
+
             foreach (var project in projects)
             {
                 if (project.Customer == null)
@@ -51,7 +48,11 @@ namespace Presentation.Dialogs
 
         public async Task ViewSingleProjectDialog()
         {
+            var projects = await _projectService.GetProjectsAsync();
+            ViewProjectsNameWithId(projects);
+
             Console.WriteLine("Enter a project id:");
+
             try
             {
                 int id = int.Parse(Console.ReadLine()!);
@@ -72,16 +73,24 @@ namespace Presentation.Dialogs
             var project = new ProjectRegistrationForm();
             var updatedProject = new ProjectEntity();
             var customers = await _customerService.GetCustomersAsync();
+            var projects = await _projectService.GetProjectsAsync();
+            ViewProjectsNameWithId(projects);
+
             Console.WriteLine("Enter a project id:");
             try
             {
                 int id = int.Parse(Console.ReadLine()!);
+                var projectToUpdate = await _projectService.GetProjectWithCustomerAsync(id);
 
-                //var projectToUpdate = _projectService.GetProjectWithCustomerAsync(id);
-
-                project = SetProjectInfo(project, customers);
-                await _projectService.UpdateCustomerAsync(id, project);
-                
+                if (projectToUpdate == null)
+                {
+                    Console.WriteLine($"There is no project with id {id}");
+                }
+                else
+                {
+                    project = SetProjectInfo(project, customers);
+                    await _projectService.UpdateCustomerAsync(id, project);
+                }   
             }
             catch (Exception ex)
             {
@@ -91,6 +100,9 @@ namespace Presentation.Dialogs
 
         public async Task DeleteProjectDialog()
         {
+            var projects = await _projectService.GetProjectsAsync();
+            ViewProjectsNameWithId(projects);
+
             Console.WriteLine("Enter a project id:");
             try
             {
@@ -116,33 +128,9 @@ namespace Presentation.Dialogs
             Console.WriteLine("Set project name:");
             project.Name = Console.ReadLine()!;
             Console.WriteLine("Set start date of project (YYYY-MM-DD):");
-            while (true)
-            {
-                var startDate = Console.ReadLine()!;
-                if (DateTime.TryParse(startDate, out DateTime date))
-                {
-                    project.StartDate = date;
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Wrong format, write date in format YYYY-MM-DD");
-                }
-            }
+            project.StartDate = CheckDateFormat();
             Console.WriteLine("Set end date of project (YYYY-MM-DD):");
-            while (true)
-            {
-                var endDate = Console.ReadLine()!;
-                if (DateTime.TryParse(endDate, out DateTime date))
-                {
-                    project.EndDate = date;
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Wrong format, write date in format YYYY-MM-DD");
-                }
-            }
+            project.EndDate = CheckDateFormat();
             Console.WriteLine("Set status on project:");
             project.Status = Console.ReadLine()!;
             Console.WriteLine("Set projectleader:");
@@ -175,6 +163,33 @@ namespace Presentation.Dialogs
             Console.WriteLine($"Service: {project.Service}");
             Console.WriteLine($"Price: {project.Price}");
             Console.WriteLine(" ");
+        }
+
+        private DateTime CheckDateFormat()
+        {
+            while (true)
+            {
+                var startDate = Console.ReadLine()!;
+                if (DateTime.TryParse(startDate, out DateTime date))
+                {
+                    return date;
+                }
+                else
+                {
+                    Console.WriteLine("Wrong format, write date in format YYYY-MM-DD");
+                }
+            }
+        }
+
+        private void ViewProjectsNameWithId(IEnumerable<ProjectEntity> projects)
+        {
+            Console.WriteLine("--- Below are existing projects --- ");
+
+            foreach (var project in projects)
+            {
+                Console.WriteLine($"{"Id:"} {project.Id,-5} {"Name:"} {project.Name}");
+            }
+            Console.WriteLine("---------------------------------");
         }
     }
 }
