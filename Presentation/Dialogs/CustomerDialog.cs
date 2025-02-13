@@ -14,10 +14,10 @@ namespace Presentation.Dialogs
             customer.CustomerName = Console.ReadLine()!;
 
             var result = await _customerService.CreateCustomerAsync(customer);
-            Console.WriteLine("result" + result);
             if (result != null)
             {
                 Console.WriteLine($"{"Customer added with id:"} {result.Id}");
+                Console.WriteLine($" ");
             }
             else
             {

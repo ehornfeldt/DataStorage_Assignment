@@ -11,7 +11,6 @@ namespace Business.Services
 
         public async Task<ProjectEntity> CreateProjectAsync(ProjectRegistrationForm form)
         {
-            //skapa ej project om den redan finns
             var projectEntity = ProjectFactory.Create(form);
             await _projectRepository.AddAsync(projectEntity!);
 
@@ -32,6 +31,13 @@ namespace Business.Services
             var projectEntity = await _projectRepository.GetAsync(x => x.Id == id);
             
             if (projectEntity == null)
+            {
+                return false;
+            }
+
+            Console.WriteLine("To cancel changes, press 'q', or press enter to save.");
+            var saveOrAbort = Console.ReadLine();
+            if(saveOrAbort!.ToLower() == "q")
             {
                 return false;
             }

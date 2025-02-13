@@ -1,5 +1,6 @@
 ﻿using Business.Models;
 using Data.Entities;
+using Data.Migrations;
 
 namespace Business.Factories
 {

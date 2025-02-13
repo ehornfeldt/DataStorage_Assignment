@@ -19,10 +19,11 @@ namespace Presentation.Dialogs
             if (result != null)
             {
                 Console.WriteLine($"{"Project added with id:"} {result.Id}");
+                Console.WriteLine($" ");
             }
             else
             {
-                Console.WriteLine("Somethong went wrong");
+                Console.WriteLine("Something went wrong");
             }
         }
 
@@ -39,7 +40,8 @@ namespace Presentation.Dialogs
                 }
                 else
                 {
-                    ProjectInfo(project);
+                    var detailInfo = false;
+                    ProjectInfo(project, detailInfo);
                 }
             }
             Console.WriteLine("---------------------------------");
@@ -51,7 +53,7 @@ namespace Presentation.Dialogs
             var projects = await _projectService.GetProjectsAsync();
             ViewProjectsNameWithId(projects);
 
-            Console.WriteLine("Enter a project id:");
+            Console.WriteLine("Enter a project id to view in detail:");
 
             try
             {
@@ -59,7 +61,8 @@ namespace Presentation.Dialogs
                 var project = await _projectService.GetProjectWithCustomerAsync(id);
                 if (project != null)
                 {
-                    ProjectInfo(project);
+                    var detailInfo = true;
+                    ProjectInfo(project, detailInfo);
                 }
             }
             catch (Exception ex)
@@ -76,7 +79,7 @@ namespace Presentation.Dialogs
             var projects = await _projectService.GetProjectsAsync();
             ViewProjectsNameWithId(projects);
 
-            Console.WriteLine("Enter a project id:");
+            Console.WriteLine("Enter a project id to update:");
             try
             {
                 int id = int.Parse(Console.ReadLine()!);
@@ -89,7 +92,12 @@ namespace Presentation.Dialogs
                 else
                 {
                     project = SetProjectInfo(project, customers);
-                    await _projectService.UpdateCustomerAsync(id, project);
+                    var isUpdated = await _projectService.UpdateCustomerAsync(id, project);
+                    if (isUpdated)
+                    {
+                        Console.WriteLine($"Project with id {id} successfully updated");
+                        Console.WriteLine($" ");
+                    }
                 }   
             }
             catch (Exception ex)
@@ -103,7 +111,7 @@ namespace Presentation.Dialogs
             var projects = await _projectService.GetProjectsAsync();
             ViewProjectsNameWithId(projects);
 
-            Console.WriteLine("Enter a project id:");
+            Console.WriteLine("Enter a project id to delete:");
             try
             {
                 int id = int.Parse(Console.ReadLine()!);
@@ -111,6 +119,7 @@ namespace Presentation.Dialogs
                 if (result)
                 {
                     Console.WriteLine($"Project with id: {id} sucessfully removed");
+                    Console.WriteLine($" ");
                 }
                 else
                 {
@@ -131,7 +140,7 @@ namespace Presentation.Dialogs
             project.StartDate = CheckDateFormat();
             Console.WriteLine("Set end date of project (YYYY-MM-DD):");
             project.EndDate = CheckDateFormat();
-            Console.WriteLine("Set status on project:");
+            Console.WriteLine("Set status on project (eg. not started, ongoing, finished:");
             project.Status = Console.ReadLine()!;
             Console.WriteLine("Set projectleader:");
             project.ProjectLeader = Console.ReadLine()!;
@@ -153,15 +162,19 @@ namespace Presentation.Dialogs
 
             return project;
         }
-        private static void ProjectInfo(ProjectEntity project)
+        private static void ProjectInfo(ProjectEntity project, bool detailInfo)
         {
             Console.WriteLine($"--- Name: {project.Name} ---");
+            Console.WriteLine($"Project id: {project.Id}");
             Console.WriteLine($"Date: {project.StartDate} - {project.EndDate}");
             Console.WriteLine($"Customer: {project.Customer.CustomerName}");
             Console.WriteLine($"Projectleader: {project.ProjectLeader}");
-            Console.WriteLine($"Status: {project.Status}");
-            Console.WriteLine($"Service: {project.Service}");
-            Console.WriteLine($"Price: {project.Price}");
+           if(detailInfo)
+           {
+                Console.WriteLine($"Status: {project.Status}");
+                Console.WriteLine($"Service: {project.Service}");
+                Console.WriteLine($"Price: {project.Price}");
+           }
             Console.WriteLine(" ");
         }
 

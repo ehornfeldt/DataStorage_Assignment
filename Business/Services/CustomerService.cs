@@ -11,7 +11,6 @@ namespace Business.Services
 
         public async Task<CustomerEntity> CreateCustomerAsync(CustomerRegistrationForm form)
         {
-            //skapa ej kund om den redan finns
             var customerEntity = CustomerFactory.Create(form);
             await _customerRepository.AddAsync(customerEntity!);
             
