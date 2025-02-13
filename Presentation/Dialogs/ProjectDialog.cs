@@ -123,7 +123,7 @@ namespace Presentation.Dialogs
             }
         }
 
-        private ProjectRegistrationForm SetProjectInfo(ProjectRegistrationForm project, IEnumerable<CustomerEntity> customers)
+        private static ProjectRegistrationForm SetProjectInfo(ProjectRegistrationForm project, IEnumerable<CustomerEntity> customers)
         {
             Console.WriteLine("Set project name:");
             project.Name = Console.ReadLine()!;
@@ -153,7 +153,7 @@ namespace Presentation.Dialogs
 
             return project;
         }
-        private void ProjectInfo(ProjectEntity project)
+        private static void ProjectInfo(ProjectEntity project)
         {
             Console.WriteLine($"--- Name: {project.Name} ---");
             Console.WriteLine($"Date: {project.StartDate} - {project.EndDate}");
@@ -165,7 +165,7 @@ namespace Presentation.Dialogs
             Console.WriteLine(" ");
         }
 
-        private DateTime CheckDateFormat()
+        private static DateTime CheckDateFormat()
         {
             while (true)
             {
