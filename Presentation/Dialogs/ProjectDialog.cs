@@ -167,11 +167,11 @@ namespace Presentation.Dialogs
             Console.WriteLine($"--- Name: {project.Name} ---");
             Console.WriteLine($"Project id: {project.Id}");
             Console.WriteLine($"Date: {project.StartDate} - {project.EndDate}");
-            Console.WriteLine($"Customer: {project.Customer.CustomerName}");
-            Console.WriteLine($"Projectleader: {project.ProjectLeader}");
+            Console.WriteLine($"Status: {project.Status}");
            if(detailInfo)
            {
-                Console.WriteLine($"Status: {project.Status}");
+                Console.WriteLine($"Customer: {project.Customer.CustomerName}");
+                Console.WriteLine($"Projectleader: {project.ProjectLeader}");
                 Console.WriteLine($"Service: {project.Service}");
                 Console.WriteLine($"Price: {project.Price}");
            }
